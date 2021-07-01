@@ -4,3 +4,9 @@ const gameboard = (() => {
 
   return {};
 })();
+
+// player factory.
+const player = (name) => {
+  const getName = () => name;
+  return { getName };
+};
