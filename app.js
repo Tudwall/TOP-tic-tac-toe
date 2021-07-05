@@ -2,17 +2,23 @@
 const createPlayer = (name, marker) => {
   const getName = () => name;
   const getMarker = () => marker;
-  return { getMarker };
+  return { getName, getMarker };
 };
 
 // gameboard module.
 const gameboard = (() => {
+  const status = document.querySelector("#status");
   const board = ["", "", "", "", "", "", "", "", ""];
 
+  // TODO: Add validation, fields mustn't be empty
   const _XPlayer = createPlayer(prompt("Player 1, enter your name"), "X");
   const _OPlayer = createPlayer(prompt("Player 2, enter your name"), "O");
 
   let _activePlayer = _XPlayer;
+
+  const _playerTurn = () => `It's ${_activePlayer.getName()}'s turn`;
+  const _playerDraw = () => "It's a draw!";
+  const _playerWin = () => `${_activePlayer.getName()} wins!`;
 
   const _winConditions = [
     [0, 1, 2],
