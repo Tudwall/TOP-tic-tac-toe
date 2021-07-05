@@ -17,6 +17,7 @@ const gameboard = (() => {
   let _activePlayer = _XPlayer;
 
   const _playerTurn = () => `It's ${_activePlayer.getName()}'s turn`;
+  status.textContent = _playerTurn();
   const _playerDraw = () => "It's a draw!";
   const _playerWin = () => `${_activePlayer.getName()} wins!`;
 
@@ -38,6 +39,43 @@ const gameboard = (() => {
     }
   };
 
+  const _winCheck = () => {
+    let winTurn = false;
+    for (let _winCondition of _winConditions) {
+      let val1 = board[_winCondition[0]];
+      let val2 = board[_winCondition[1]];
+      let val3 = board[_winCondition[2]];
+
+      if (val1 === "" || val2 === "" || val3 === "") {
+        continue;
+      }
+
+      if (val1 === val2 && val2 === val3) {
+        winTurn = true;
+        break;
+      }
+    }
+
+    if (winTurn) {
+      status.textContent = _playerWin();
+      document
+        .querySelectorAll(".cell")
+        .forEach((cell) => cell.removeEventListener("click", playerClick));
+      return;
+    }
+
+    if (!board.includes("")) {
+      status.textContent = _playerDraw();
+      document
+        .querySelectorAll(".cell")
+        .forEach((cell) => cell.removeEventListener("click", playerClick));
+      return;
+    }
+
+    _activePlayer = _activePlayer === _XPlayer ? _OPlayer : _XPlayer;
+    status.textContent = _playerTurn();
+  };
+
   function playerClick() {
     const cellIndex = parseInt(this.dataset.i);
     if (board[cellIndex] !== "") {
@@ -46,7 +84,7 @@ const gameboard = (() => {
 
     board[cellIndex] = _activePlayer.getMarker();
     this.textContent = _activePlayer.getMarker();
-    _activePlayer = _activePlayer === _XPlayer ? _OPlayer : _XPlayer;
+    _winCheck();
   }
 
   return { board, playerClick };
