@@ -9,6 +9,11 @@ const createPlayer = (name, marker) => {
 const gameboard = (() => {
   const board = ["", "", "", "", "", "", "", "", ""];
 
+  const _XPlayer = createPlayer(prompt("Player 1, enter your name"), "X");
+  const _OPlayer = createPlayer(prompt("Player 2, enter your name"), "O");
+
+  let _activePlayer = _XPlayer;
+
   const _winConditions = [
     [0, 1, 2],
     [3, 4, 5],
@@ -27,17 +32,15 @@ const gameboard = (() => {
     }
   };
 
-  const _XPlayer = createPlayer("Player 1", "X");
-  const _OPlayer = createPlayer("Player 2", "O");
-
   function playerClick() {
     const cellIndex = parseInt(this.dataset.i);
     if (board[cellIndex] !== "") {
       return;
     }
 
-    board[cellIndex] = _XPlayer.getMarker();
-    this.textContent = _XPlayer.getMarker();
+    board[cellIndex] = _activePlayer.getMarker();
+    this.textContent = _activePlayer.getMarker();
+    _activePlayer = _activePlayer === _XPlayer ? _OPlayer : _XPlayer;
   }
 
   return { board, playerClick };
