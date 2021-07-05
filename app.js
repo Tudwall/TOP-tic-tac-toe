@@ -8,7 +8,7 @@ const createPlayer = (name, marker) => {
 // gameboard module.
 const gameboard = (() => {
   const status = document.querySelector("#status");
-  const board = ["", "", "", "", "", "", "", "", ""];
+  const _board = ["", "", "", "", "", "", "", "", ""];
 
   // TODO: Add validation, fields mustn't be empty
   const _XPlayer = createPlayer(prompt("Player 1, enter your name"), "X");
@@ -39,18 +39,18 @@ const gameboard = (() => {
   };
 
   const _displayBoard = () => {
-    for (let i = 0; i < board.length; i++) {
+    for (let i = 0; i < _board.length; i++) {
       const cell = document.querySelector(`[data-i="${i}"]`);
-      cell.textContent = board[i];
+      cell.textContent = _board[i];
     }
   };
 
   const _winCheck = () => {
     let winTurn = false;
     for (let _winCondition of _winConditions) {
-      let val1 = board[_winCondition[0]];
-      let val2 = board[_winCondition[1]];
-      let val3 = board[_winCondition[2]];
+      let val1 = _board[_winCondition[0]];
+      let val2 = _board[_winCondition[1]];
+      let val3 = _board[_winCondition[2]];
 
       if (val1 === "" || val2 === "" || val3 === "") {
         continue;
@@ -68,7 +68,7 @@ const gameboard = (() => {
       return;
     }
 
-    if (!board.includes("")) {
+    if (!_board.includes("")) {
       status.textContent = _playerDraw();
       _removeCellEventListener();
       return;
@@ -79,8 +79,8 @@ const gameboard = (() => {
   };
 
   function restartGame() {
-    for (let i = 0; i < board.length; i++) {
-      board[i] = "";
+    for (let i = 0; i < _board.length; i++) {
+      _board[i] = "";
     }
     _activePlayer = _XPlayer;
     status.textContent = _playerTurn();
@@ -91,16 +91,16 @@ const gameboard = (() => {
 
   function playerClick() {
     const cellIndex = parseInt(this.dataset.i);
-    if (board[cellIndex] !== "") {
+    if (_board[cellIndex] !== "") {
       return;
     }
 
-    board[cellIndex] = _activePlayer.getMarker();
+    _board[cellIndex] = _activePlayer.getMarker();
     this.textContent = _activePlayer.getMarker();
     _winCheck();
   }
 
-  return { board, playerClick, restartGame };
+  return { playerClick, restartGame };
 })();
 
 document
