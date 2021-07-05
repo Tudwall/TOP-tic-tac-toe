@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+body {
+  text-align: center;
+}
+
 h1 {
   text-align: center;
   margin-bottom: 1em;
@@ -31,4 +35,6 @@ footer {
 .cell {
   border: 1px solid black;
   height: 100px;
+  line-height: 100px;
+  font-size: 60px;
 }
