@@ -32,6 +32,12 @@ const gameboard = (() => {
     [2, 4, 6],
   ];
 
+  const _removeCellEventListener = () => {
+    document
+      .querySelectorAll(".cell")
+      .forEach((cell) => cell.removeEventListener("click", playerClick));
+  };
+
   const _displayBoard = () => {
     for (let i = 0; i < board.length; i++) {
       const cell = document.querySelector(`[data-i="${i}"]`);
@@ -58,17 +64,13 @@ const gameboard = (() => {
 
     if (winTurn) {
       status.textContent = _playerWin();
-      document
-        .querySelectorAll(".cell")
-        .forEach((cell) => cell.removeEventListener("click", playerClick));
+      _removeCellEventListener();
       return;
     }
 
     if (!board.includes("")) {
       status.textContent = _playerDraw();
-      document
-        .querySelectorAll(".cell")
-        .forEach((cell) => cell.removeEventListener("click", playerClick));
+      _removeCellEventListener();
       return;
     }
 
