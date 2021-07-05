@@ -1,24 +1,33 @@
 // gameboard module.
 const gameboard = (() => {
-  const board = ["X", "O", "X", "O", "X", "O", "X", "O", "X"];
+  const board = ["", "", "", "", "", "", "", "", ""];
 
-  return { board };
-})();
-
-// displayController module.
-const displayController = (() => {
-  const displayBoard = (board) => {
+  const _displayBoard = () => {
     for (let i = 0; i < board.length; i++) {
-      const gridItem = document.querySelector(`[data-i="${i}"]`);
-      gridItem.textContent = board[i];
+      const cell = document.querySelector(`[data-i="${i}"]`);
+      cell.textContent = board[i];
     }
   };
 
-  return { displayBoard };
+  function playerClick() {
+    const cellIndex = parseInt(this.dataset.i);
+    if (board[cellIndex] !== "") {
+      return;
+    }
+
+    // board[cellIndex] = Player.getMarker();
+  }
+
+  return { board, playerClick };
 })();
 
+document
+  .querySelectorAll(".cell")
+  .forEach((cell) => cell.addEventListener("click", gameboard.playerClick));
+
 // player factory.
-const Player = (name) => {
+const Player = (name, marker) => {
   const getName = () => name;
-  return { getName };
+  const getMarker = () => (marker = "X");
+  return { getName, getMarker };
 };
