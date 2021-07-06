@@ -69,16 +69,3 @@ label,
 input {
   margin: 10px;
 }
-
-#close {
-  color: #76746a;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-#close:hover {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-}
