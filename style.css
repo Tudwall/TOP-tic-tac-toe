@@ -39,3 +39,46 @@ footer {
   line-height: 100px;
   font-size: 60px;
 }
+
+#modal {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+#modal-content {
+  background-color: #fff;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid black;
+  width: 80%;
+}
+#modal-content > form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  width: 33%;
+}
+
+label,
+input {
+  margin: 10px;
+}
+
+#close {
+  color: #76746a;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+#close:hover {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
