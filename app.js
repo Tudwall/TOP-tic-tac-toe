@@ -5,6 +5,37 @@ const createPlayer = (name, marker) => {
   return { getName, getMarker };
 };
 
+// modal module.
+const modal = (() => {
+  const modal = document.querySelector("#modal");
+  const XplayerField = document.querySelector("#X-player");
+  const OplayerField = document.querySelector("#O-player");
+
+  function _formValidation() {
+    if (XplayerField.value == "") {
+      alert("Please enter player 1's name.");
+      XplayerField.focus();
+      return false;
+    }
+    if (OplayerField.value == "") {
+      alert("Please enter player 2's name.");
+      OplayerField.focus();
+      return false;
+    }
+    return true;
+  }
+
+  function _submit() {
+    if (_formValidation()) {
+      const XPlayer = createPlayer(XplayerField.textContent, "X");
+      const OPlayer = createPlayer(OplayerField.textContent, "O");
+      modal.style.display = "none";
+    }
+  }
+
+  return { _submit };
+})();
+
 // gameboard module.
 const gameboard = (() => {
   const status = document.querySelector("#status");
@@ -14,7 +45,8 @@ const gameboard = (() => {
   const _XPlayer = createPlayer(prompt("Player 1, enter your name"), "X");
   const _OPlayer = createPlayer(prompt("Player 2, enter your name"), "O");
 
-  let _activePlayer = _XPlayer;
+  // _activePlayer is undefined.
+  let _activePlayer = modal._XPlayer;
 
   const _playerTurn = () => `It's ${_activePlayer.getName()}'s turn`;
   status.textContent = _playerTurn();
@@ -74,7 +106,8 @@ const gameboard = (() => {
       return;
     }
 
-    _activePlayer = _activePlayer === _XPlayer ? _OPlayer : _XPlayer;
+    _activePlayer =
+      _activePlayer === modal._XPlayer ? modal._OPlayer : modal._XPlayer;
     status.textContent = _playerTurn();
   };
 
@@ -102,6 +135,8 @@ const gameboard = (() => {
 
   return { playerClick, restartGame };
 })();
+
+document.querySelector("#submit").addEventListener("click", modal._submit);
 
 document
   .querySelectorAll(".cell")
