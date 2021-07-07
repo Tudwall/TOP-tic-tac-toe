@@ -39,6 +39,18 @@ const gameboard = (() => {
       .forEach((cell) => cell.removeEventListener("click", _playerClick));
   };
 
+  function addCellEventListener() {
+    document
+      .querySelectorAll(".cell")
+      .forEach((cell) => cell.addEventListener("click", _playerClick));
+  }
+
+  function addRestartBtnEventListener() {
+    document
+      .querySelector("#restart-btn")
+      .addEventListener("click", _restartGame);
+  }
+
   const _winCheck = () => {
     let winTurn = false;
     for (let _winCondition of _winConditions) {
@@ -79,7 +91,7 @@ const gameboard = (() => {
       _board[i] = "";
     }
     _activePlayer = _XPlayer;
-    addCellEL();
+    addCellEventListener();
     gameOn = true;
     status.textContent = _playerTurn();
     document
@@ -98,20 +110,8 @@ const gameboard = (() => {
     _winCheck();
   }
 
-  function addCellEL() {
-    document
-      .querySelectorAll(".cell")
-      .forEach((cell) => cell.addEventListener("click", _playerClick));
-  }
-
-  function addRestartBtnEL() {
-    document
-      .querySelector("#restart-btn")
-      .addEventListener("click", _restartGame);
-  }
-
-  return { addCellEL, addRestartBtnEL };
+  return { addCellEventListener, addRestartBtnEventListener };
 })();
 
-gameboard.addCellEL();
-gameboard.addRestartBtnEL();
+gameboard.addCellEventListener();
+gameboard.addRestartBtnEventListener();
