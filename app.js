@@ -20,6 +20,7 @@ const gameboard = (() => {
   status.textContent = _playerTurn();
   const _playerDraw = () => "It's a draw!";
   const _playerWin = () => `${_activePlayer.getName()} wins!`;
+  let gameOn = true;
 
   const _winConditions = [
     [0, 1, 2],
@@ -65,12 +66,14 @@ const gameboard = (() => {
     if (winTurn) {
       status.textContent = _playerWin();
       _removeCellEventListener();
+      gameOn = false;
       return;
     }
 
     if (!_board.includes("")) {
       status.textContent = _playerDraw();
       _removeCellEventListener();
+      gameOn = false;
       return;
     }
 
@@ -83,6 +86,7 @@ const gameboard = (() => {
       _board[i] = "";
     }
     _activePlayer = _XPlayer;
+    gameOn = true;
     status.textContent = _playerTurn();
     document
       .querySelectorAll(".cell")
@@ -91,7 +95,7 @@ const gameboard = (() => {
 
   function playerClick() {
     const cellIndex = parseInt(this.dataset.i);
-    if (_board[cellIndex] !== "") {
+    if (_board[cellIndex] !== "" || !gameOn) {
       return;
     }
 
