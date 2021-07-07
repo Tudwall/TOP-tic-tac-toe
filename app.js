@@ -20,6 +20,7 @@ const gameboard = (() => {
   status.textContent = _playerTurn();
   const _playerDraw = () => "It's a draw!";
   const _playerWin = () => `${_activePlayer.getName()} wins!`;
+  let gameOn = true;
 
   const _winConditions = [
     [0, 1, 2],
@@ -35,15 +36,20 @@ const gameboard = (() => {
   const _removeCellEventListener = () => {
     document
       .querySelectorAll(".cell")
-      .forEach((cell) => cell.removeEventListener("click", playerClick));
+      .forEach((cell) => cell.removeEventListener("click", _playerClick));
   };
 
-  const _displayBoard = () => {
-    for (let i = 0; i < _board.length; i++) {
-      const cell = document.querySelector(`[data-i="${i}"]`);
-      cell.textContent = _board[i];
-    }
-  };
+  function addCellEventListener() {
+    document
+      .querySelectorAll(".cell")
+      .forEach((cell) => cell.addEventListener("click", _playerClick));
+  }
+
+  function addRestartBtnEventListener() {
+    document
+      .querySelector("#restart-btn")
+      .addEventListener("click", _restartGame);
+  }
 
   const _winCheck = () => {
     let winTurn = false;
@@ -65,12 +71,14 @@ const gameboard = (() => {
     if (winTurn) {
       status.textContent = _playerWin();
       _removeCellEventListener();
+      gameOn = false;
       return;
     }
 
     if (!_board.includes("")) {
       status.textContent = _playerDraw();
       _removeCellEventListener();
+      gameOn = false;
       return;
     }
 
@@ -78,20 +86,22 @@ const gameboard = (() => {
     status.textContent = _playerTurn();
   };
 
-  function restartGame() {
+  function _restartGame() {
     for (let i = 0; i < _board.length; i++) {
       _board[i] = "";
     }
     _activePlayer = _XPlayer;
+    addCellEventListener();
+    gameOn = true;
     status.textContent = _playerTurn();
     document
       .querySelectorAll(".cell")
       .forEach((cell) => (cell.textContent = ""));
   }
 
-  function playerClick() {
+  function _playerClick() {
     const cellIndex = parseInt(this.dataset.i);
-    if (_board[cellIndex] !== "") {
+    if (_board[cellIndex] !== "" || !gameOn) {
       return;
     }
 
@@ -100,13 +110,8 @@ const gameboard = (() => {
     _winCheck();
   }
 
-  return { playerClick, restartGame };
+  return { addCellEventListener, addRestartBtnEventListener };
 })();
 
-document
-  .querySelectorAll(".cell")
-  .forEach((cell) => cell.addEventListener("click", gameboard.playerClick));
-
-document
-  .querySelector("#restart-btn")
-  .addEventListener("click", gameboard.restartGame);
+gameboard.addCellEventListener();
+gameboard.addRestartBtnEventListener();
