@@ -111,7 +111,14 @@ const gameboard = (() => {
       .forEach((cell) => cell.addEventListener("click", _playerClick));
   }
 
-  return { addCellEL };
+  function addRestartBtnEL() {
+    document
+      .querySelector("#restart-btn")
+      .addEventListener("click", _restartGame);
+  }
+
+  return { addCellEL, addRestartBtnEL };
 })();
 
 gameboard.addCellEL();
+gameboard.addRestartBtnEL();
