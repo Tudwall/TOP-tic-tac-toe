@@ -36,7 +36,7 @@ const gameboard = (() => {
   const _removeCellEventListener = () => {
     document
       .querySelectorAll(".cell")
-      .forEach((cell) => cell.removeEventListener("click", playerClick));
+      .forEach((cell) => cell.removeEventListener("click", _playerClick));
   };
 
   const _winCheck = () => {
