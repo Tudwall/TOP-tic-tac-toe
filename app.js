@@ -81,11 +81,12 @@ const gameboard = (() => {
     status.textContent = _playerTurn();
   };
 
-  function restartGame() {
+  function _restartGame() {
     for (let i = 0; i < _board.length; i++) {
       _board[i] = "";
     }
     _activePlayer = _XPlayer;
+    addCellEL();
     gameOn = true;
     status.textContent = _playerTurn();
     document
@@ -93,7 +94,7 @@ const gameboard = (() => {
       .forEach((cell) => (cell.textContent = ""));
   }
 
-  function playerClick() {
+  function _playerClick() {
     const cellIndex = parseInt(this.dataset.i);
     if (_board[cellIndex] !== "" || !gameOn) {
       return;
@@ -104,13 +105,13 @@ const gameboard = (() => {
     _winCheck();
   }
 
-  return { playerClick, restartGame };
+  function addCellEL() {
+    document
+      .querySelectorAll(".cell")
+      .forEach((cell) => cell.addEventListener("click", _playerClick));
+  }
+
+  return { addCellEL };
 })();
 
-document
-  .querySelectorAll(".cell")
-  .forEach((cell) => cell.addEventListener("click", gameboard.playerClick));
-
-document
-  .querySelector("#restart-btn")
-  .addEventListener("click", gameboard.restartGame);
+gameboard.addCellEL();
