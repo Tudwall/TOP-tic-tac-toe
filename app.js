@@ -39,13 +39,6 @@ const gameboard = (() => {
       .forEach((cell) => cell.removeEventListener("click", playerClick));
   };
 
-  const _displayBoard = () => {
-    for (let i = 0; i < _board.length; i++) {
-      const cell = document.querySelector(`[data-i="${i}"]`);
-      cell.textContent = _board[i];
-    }
-  };
-
   const _winCheck = () => {
     let winTurn = false;
     for (let _winCondition of _winConditions) {
